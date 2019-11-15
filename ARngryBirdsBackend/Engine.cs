@@ -10,8 +10,8 @@ namespace ARngryBirdsBackend
         private static readonly TimeSpan FullRound = new TimeSpan(0, 3, 0);
         private const int VisibleAngle = 120;
         private const int DamageToStrengthRatio = 1;
-        private const int LowerLongitude = 60;
-        private const int HigherLongitude = 120;
+        private const int LowerLatitude = 60;
+        private const int HigherLatitude = 120;
 
         private readonly State _state;
         private DateTime _last;
@@ -45,8 +45,8 @@ namespace ARngryBirdsBackend
                 var higherGenAngle = (_state.PlanetRotation + VisibleAngle / 2).ToAngle();
                 _state.Zones.Add(new Zone
                 {
-                    Latitude = Utils.GenerateAngleWithin(lowerGenAngle, higherGenAngle),
-                    Longitude = _random.Next(LowerLongitude, HigherLongitude),
+                    Longitude = Utils.GenerateAngleWithin(lowerGenAngle, higherGenAngle),
+                    Latitude = _random.Next(LowerLatitude, HigherLatitude),
                     Strength = GetZoneStrength(),
                     Type = GetRandomZoneType()
                 });
