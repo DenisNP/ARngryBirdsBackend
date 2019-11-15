@@ -28,7 +28,7 @@ namespace ARngryBirdsBackend
             if (_state.Health <= 0) return;
             
             var diff = (now - _last).TotalMilliseconds;
-            _state.PlanetRotation += (int)Math.Round(FullRound.TotalMilliseconds / diff * 360);
+            _state.PlanetRotation += (int)Math.Round(diff / FullRound.TotalMilliseconds * 360);
             _state.PlanetRotation = _state.PlanetRotation.ToAngle();
 
             RemoveZones();
