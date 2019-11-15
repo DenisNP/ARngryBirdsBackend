@@ -1,12 +1,11 @@
 ﻿using System;
 using ARngryBirdsBackend.Models;
-using MoreLinq;
 
 namespace ARngryBirdsBackend
 {
     public class Engine
     {
-        private static Random _random = new Random();
+        private static readonly Random Random = new Random();
         
         private static readonly TimeSpan FullRound = new TimeSpan(0, 3, 0);
         private const int VisibleAngle = 120;
@@ -16,6 +15,7 @@ namespace ARngryBirdsBackend
         private const double EliminateDistance = 3.0;
         private const double PassiveDistance = 10.0;
         private const int ScoreToStrengthRatio = 100;
+        private const int DisplayWidth = 1000;
 
         private int _x;
         private int _y;
@@ -56,7 +56,7 @@ namespace ARngryBirdsBackend
             _state.Zones.Add(new Zone
             {
                 Longitude = Utils.GenerateAngleWithin(lowerGenAngle, higherGenAngle),
-                Latitude = _random.Next(LowerLatitude, HigherLatitude),
+                Latitude = Random.Next(LowerLatitude, HigherLatitude),
                 Strength = GetZoneStrength(),
                 Type = GetRandomZoneType()
             });
@@ -97,13 +97,13 @@ namespace ARngryBirdsBackend
         private double GetZoneStrength()
         {
             // TODO by score
-            return _random.Next(30, 100) / 100.0;
+            return Random.Next(30, 100) / 100.0;
         }
 
         private DateTime GetNextZonePeriod()
         {
             // TODO by score
-            return DateTime.Now + new TimeSpan(0, 0, _random.Next(3, 10));
+            return DateTime.Now + new TimeSpan(0, 0, Random.Next(3, 10));
         }
 
         private ZoneType GetRandomZoneType()
@@ -128,7 +128,7 @@ namespace ARngryBirdsBackend
                 var (lat, lng) = CalculateSpherePoint(strength);
                 _state.Birds.Add(new Bird
                 {
-                    Id = _random.Next(),
+                    Id = Random.Next(),
                     Latitude = lat,
                     Longitude = lng,
                     X = _x,
@@ -170,10 +170,10 @@ namespace ARngryBirdsBackend
 
         private (int, int) CalculateSpherePoint(in double strength)
         {
-            // TODO
+            // TODO normal latitude calculation
             return (
                 (int)Math.Round((HigherLatitude - LowerLatitude) * strength + LowerLatitude),
-                _state.PlanetRotation
+                (_state.PlanetRotation - VisibleAngle / 2 + VisibleAngle * _x / DisplayWidth).ToAngle()
             );
         }
 
