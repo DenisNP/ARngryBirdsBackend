@@ -9,7 +9,7 @@ namespace ARngryBirdsBackend
         
         private static readonly TimeSpan FullRound = new TimeSpan(0, 3, 0);
         private const int VisibleAngle = 120;
-        private const int DamageToStrengthRatio = 1;
+        private const int DamageToStrengthRatio = 50;
         private const int LowerLatitude = 60;
         private const int HigherLatitude = 120;
 
@@ -39,19 +39,18 @@ namespace ARngryBirdsBackend
 
         private void GenerateZone()
         {
-            if (_nextZone < DateTime.Now)
+            if (_nextZone >= DateTime.Now) return;
+            
+            var lowerGenAngle = _state.PlanetRotation;
+            var higherGenAngle = (_state.PlanetRotation + VisibleAngle / 2).ToAngle();
+            _state.Zones.Add(new Zone
             {
-                var lowerGenAngle = _state.PlanetRotation;
-                var higherGenAngle = (_state.PlanetRotation + VisibleAngle / 2).ToAngle();
-                _state.Zones.Add(new Zone
-                {
-                    Longitude = Utils.GenerateAngleWithin(lowerGenAngle, higherGenAngle),
-                    Latitude = _random.Next(LowerLatitude, HigherLatitude),
-                    Strength = GetZoneStrength(),
-                    Type = GetRandomZoneType()
-                });
-                _nextZone = GetNextZonePeriod();
-            }
+                Longitude = Utils.GenerateAngleWithin(lowerGenAngle, higherGenAngle),
+                Latitude = _random.Next(LowerLatitude, HigherLatitude),
+                Strength = GetZoneStrength(),
+                Type = GetRandomZoneType()
+            });
+            _nextZone = GetNextZonePeriod();
         }
 
         private void RemoveZones()
