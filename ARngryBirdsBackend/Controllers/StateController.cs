@@ -25,5 +25,30 @@ namespace ARngryBirdsBackend.Controllers
             Engine.Reset();
             return JsonConvert.SerializeObject(State, Utils.ConverterSettings);
         }
+
+        [HttpGet("/coords")]
+        public string SetXy()
+        {
+            var x = int.Parse(Request.Query["x"]);
+            var y = int.Parse(Request.Query["y"]);
+            Engine.SetCoords(x, y);
+            return "ok";
+        }
+
+        [HttpGet("/hit")]
+        public string Hit()
+        {
+            var strength = int.Parse(Request.Query["strength"]);
+            Engine.Hit(strength / 100.0);
+            return "ok";
+        }
+
+        [HttpGet("/mode")]
+        public string Mode()
+        {
+            var mode = int.Parse(Request.Query["v"]);
+            Engine.SetMode(mode);
+            return "ok";
+        }
     }
 }

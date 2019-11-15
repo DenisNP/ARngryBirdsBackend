@@ -55,5 +55,17 @@ namespace ARngryBirdsBackend
             var upHigher = higher + 360;
             return _random.Next(lower, upHigher + 1).ToAngle();
         }
+
+        public static double DistanceBetween2d(int lat1, int lng1, int lat2, int lng2)
+        {
+            var lngDiff = Math.Abs(lng1 - lng2);
+            var latDiff = Math.Abs(lat1 - lat2);
+            if (latDiff > 180)
+            {
+                latDiff = 360 - latDiff;
+            }
+
+            return Math.Sqrt(lngDiff * lngDiff + latDiff * latDiff);
+        }
     }
 }

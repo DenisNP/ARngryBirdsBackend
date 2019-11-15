@@ -20,6 +20,7 @@ namespace ARngryBirdsBackend.Models
 
     public enum BirdType
     {
+        None,
         Fireball,
         Waterball,
         Stone
