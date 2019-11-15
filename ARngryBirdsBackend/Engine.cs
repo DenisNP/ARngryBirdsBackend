@@ -45,7 +45,7 @@ namespace ARngryBirdsBackend
                 var higherGenAngle = (_state.PlanetRotation + VisibleAngle / 2).ToAngle();
                 _state.Zones.Add(new Zone
                 {
-                    Latitude = _random.Next(lowerGenAngle, higherGenAngle),
+                    Latitude = Utils.GenerateAngleWithin(lowerGenAngle, higherGenAngle),
                     Longitude = _random.Next(LowerLongitude, HigherLongitude),
                     Strength = GetZoneStrength(),
                     Type = GetRandomZoneType()
@@ -94,7 +94,7 @@ namespace ARngryBirdsBackend
         private DateTime GetNextZonePeriod()
         {
             // TODO by score
-            return DateTime.Now + new TimeSpan(0, 0, _random.Next(10, 30));
+            return DateTime.Now + new TimeSpan(0, 0, _random.Next(3, 10));
         }
 
         private ZoneType GetRandomZoneType()
